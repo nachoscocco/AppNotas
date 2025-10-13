@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "titulo": "(1)Configurar el entorno de desarrollo",
     "descripcion": "Instalar Python, MySQL y las librerías necesarias para el proyecto.",
     "prioridad": "Urgente",
@@ -9,6 +10,7 @@
     "usuario" : "NachoSc"
   },
   {
+    "id": 2,
     "titulo": "(2)Maquetar la vista principal con HTML y CSS",
     "descripcion": "Convertir el mockup de Draw.IO en un archivo HTML estático con los estilos básicos definidos.",
     "prioridad": "Media",
@@ -18,6 +20,7 @@
     "usuario" : "NachoSc"
   },
   {
+    "id": 3,
     "titulo": "(3)Crear la API para el alta de usuarios",
     "descripcion": "Desarrollar el endpoint en Python que permita registrar nuevos usuarios en la base de datos.",
     "prioridad": "Baja",

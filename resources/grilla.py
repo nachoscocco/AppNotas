@@ -1,7 +1,7 @@
 import json
 from flask import request
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 archivo_de_usuarios = "data/users.json"
 archivo_de_notas = "data/cards.json"
@@ -48,16 +48,21 @@ class Grilla(Resource):
     @jwt_required()
     def get(self):
         """Retorna una lista de las notas a mostrar"""
-        usuario_logueado = get_jwt_identity()
-        nombre_usuario = usuario_logueado.get("username")
-
         try:
-           notas_usuario = obtener_notas_usuario(nombre_usuario)
+            usuario_logueado = get_jwt_identity()
+            print(usuario_logueado)
+            if not usuario_logueado:
+                return {"message": "Token inválido o expirado"}, 401
+                
+            nombre_usuario = usuario_logueado.get("username")
+            print(f"DEBUG: Nombre usuario = {nombre_usuario}")
 
-        except:
-            return {"message": "Error al leer los archivos"}, 500
+            notas_usuario = obtener_notas_usuario(nombre_usuario)
+            return {"notas": notas_usuario}, 200
 
-        return {"notas": notas_usuario}, 200
+        except Exception as e:
+            print(f"DEBUG: Error = {str(e)}")
+            return {"message": f"Error al procesar la solicitud: {str(e)}"}, 500
 
     # @jwt_required()
     # def post(self):

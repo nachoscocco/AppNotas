@@ -17,6 +17,6 @@
     },
     "NachoSc": {
         "password": "$2b$12$lC.1G3aeNLEK1g.36IwSMuXtXBZD/CU3NyDDHrh1f.I.1pNGvsTL6",
-        "role": "usuario"
+        "role": "usuarioBase"
     }
 }

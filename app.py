@@ -1,39 +1,84 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify 
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
+import os
 
-# Importamos los resources refiriendo al nuevo destino:
+# Importamos los resources:
 from resources.auth import Registro, Login
 from resources.grilla import Grilla
 
-
 app = Flask(__name__)
-api = Api(app)
 
-# Generamos una clave secreta para encriptar, y un tiempo de expiración de token
-# Esto no debería estar aquí, sino en un archivo .env
-app.config["JWT_SECRET_KEY"] = "supersecreto"  
+# Configuración de la aplicación
+app.config["JWT_SECRET_KEY"] = "supersecreto"  # En producción usar variables de entorno
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=7)
+app.config['JWT_VERIFY_SUB'] = False
 
-# Generamos un gestor de claves JWT con nuestra app.
+# Inicializar JWT
 jwt = JWTManager(app)
 
-# Rutas:
-api.add_resource(Registro, "/registro") # Ruta para cualquier request por post
-api.add_resource(Login, "/login")       # Ruta para cualquier request por post
-api.add_resource(Grilla, "/grilla")       # Ruta para cualquier request por post
+# Configurar API RESTful
+api = Api(app, prefix='/api/v1')
 
+# ==================== RUTAS API ====================
+# Autenticación
+api.add_resource(Registro, "/auth/registro")
+api.add_resource(Login, "/auth/login")
 
+# Recursos principales
+api.add_resource(Grilla, "/grilla")
 
-# Rutas estáticas:
+# ==================== RUTAS ESTÁTICAS ====================
 @app.route("/")
-def serve_index():
+def index():
+    """Página principal - Login"""
     return send_from_directory("static", "login.html")
 
 @app.route("/grilla")
-def serve_grilla():
+def grilla_page():
+    """Página de grilla de tareas"""
     return send_from_directory("static", "grilla.html")
+
+
+# Servir archivos estáticos (CSS, JS, imágenes)
+@app.route("/static/<path:filename>")
+def serve_static(filename):
+    """Servir archivos estáticos"""
+    return send_from_directory("static", filename)
+
+# ==================== MANEJO DE ERRORES ====================
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"error": "Endpoint no encontrado"}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({"error": "Error interno del servidor"}), 500
+
+# ==================== RUTAS DE INFORMACIÓN ====================
+@app.route("/api/health")
+def health_check():
+    """Endpoint de salud de la aplicación"""
+    return jsonify({
+        "status": "ok",
+        "message": "API funcionando correctamente",
+        "version": "1.0.0"
+    })
+
+
+@app.route("/api/routes")
+def list_routes():
+    """Lista todas las rutas disponibles"""
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({
+            "endpoint": rule.endpoint,
+            "methods": list(rule.methods),
+            "rule": str(rule)
+        })
+    return jsonify({"routes": routes})
 
 if __name__ == "__main__":
     app.run(debug=True)

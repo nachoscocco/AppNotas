@@ -21,7 +21,7 @@
         evento.preventDefault();
         const username = document.querySelector('#username').value;
         const password = document.querySelector('#password').value;
-        const url = "/login";
+        const url = "/api/v1/auth/login";
         fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -38,6 +38,7 @@
             // El login fue exitoso
             // Guardamos el token JWT en localStorage
             localStorage.setItem('access_token', datos_acceso.access_token);
+            console.log(datos_acceso.access_token);
             // Redirigimos
             window.location.href = '/grilla';
         } else if (datos_acceso.message) {
