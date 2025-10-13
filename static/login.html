@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Inicio</title>
+</head>
+<body>
+    <h1>¡Bienvenido!</h1>
+    <p>Esta es la página de inicio.</p>
+    <form id="formulario_login">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+        <p id="error_login" style="color:red"></p>
+        <button type="submit">Iniciar sesión</button>
+    </form>
+<script>
+    document.querySelector('#formulario_login').addEventListener('submit', evento => {
+        evento.preventDefault();
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+        const url = "/login";
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({username, password})
+        })
+            .then(respuesta => respuesta.json())
+            .then(datos_acceso => { validar_login(datos_acceso); })
+            .catch( e => {console.log(e)});
+    });
+
+    function validar_login(datos_acceso)
+    {
+        if(datos_acceso.access_token) {
+            // El login fue exitoso
+            // Guardamos el token JWT en localStorage
+            localStorage.setItem('access_token', datos_acceso.access_token);
+            // Redirigimos
+            window.location.href = '/grilla';
+        } else if (datos_acceso.message) {
+            // Mostrar el error:
+            document.querySelector('#error_login').textContent = datos_acceso.message;
+            document.querySelector('#password').focus();
+        } else {
+            // Error inesperado
+            alert("Error no reconocido");
+        }
+    }
+</script>
+</body>
+</head>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tareas</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* Un poco de estilo extra para que se vea mejor */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 960px;
+        }
+        .card-header-urgent { background-color: #f8d7da; border-color: #f5c2c7; }
+        .card-header-medium { background-color: #fff3cd; border-color: #ffe69c; }
+        .card-header-low { background-color: #d1e7dd; border-color: #badbcc; }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="display-4"><i class="bi bi-card-checklist"></i> Mis Tareas</h1>
+            <p class="lead">Un lugar para organizar tu día a día.</p>
+        </div>
+
+        <div class="card shadow-sm mb-5">
+            <div class="card-body p-4">
+                <h2 class="card-title h4">📝 Añadir nueva tarea</h2>
+                <form id="form-nueva-tarea">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="titulo" placeholder="Ej: Preparar la reunión de equipo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" rows="3" placeholder="Añade más detalles sobre tu tarea..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prioridad" class="form-label">Prioridad</label>
+                        <select class="form-select" id="prioridad">
+                            <option value="Media" selected>Media</option>
+                            <option value="Urgente">Urgente</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-plus-lg"></i> Agregar Tarea
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <h2 class="mb-3">📌 Tareas Pendientes</h2>
+        <div id="lista-tareas">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header card-header-urgent d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Configurar el entorno de desarrollo</h5>
+                    <span class="badge bg-danger">Urgente</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Instalar Python, MySQL y las librerías necesarias para el proyecto.</p>
+                    <small class="text-muted">Creada: 2025-10-12</small>
+                </div>
+                <div class="card-footer bg-white text-end">
+                    <button class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Completar</button>
+                    <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Eliminar</button>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-header card-header-low d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Crear la API para el alta de usuarios</h5>
+                    <span class="badge bg-success">Baja</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Desarrollar el endpoint en Python que permita registrar nuevos usuarios en la base de datos.</p>
+                    <p class="card-text"><small><i class="bi bi-paperclip"></i> <strong>Adjunto:</strong> /docs/api/usuarios.md</small></p>
+                    <small class="text-muted">Creada: 2025-10-12</small>
+                </div>
+                <div class="card-footer bg-white text-end">
+                    <button class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Completar</button>
+                    <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mb-3 mt-5">✅ Tareas Completadas</h2>
+        <div id="lista-completadas">
+            <div class="card shadow-sm mb-3 text-decoration-line-through text-muted">
+                <div class="card-header card-header-medium d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Maquetar la vista principal con HTML y CSS</h5>
+                    <span class="badge bg-warning text-dark">Media</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Convertir el mockup de Draw.IO en un archivo HTML estático con los estilos básicos definidos.</p>
+                    <small>Completada: 2025-10-12</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="grilla.js"></script>
+</body>
+</html>

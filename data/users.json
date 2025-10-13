@@ -1,0 +1,22 @@
+{
+    "docente1": {
+        "password": "$2b$12$4qsDqMs3Wd/H7euJBhZYEOsk3/KTbDejo/6uMxZuRwNfgk3HPB07.",
+        "role": "docente"
+    },
+    "docente2": {
+        "password": "$2b$12$htFd6iYL2OMtPPBS3aensuijVPcCYQNK2TC0BLil1Ooya7e6c8uMe",
+        "role": "docente"
+    },
+    "alicia": {
+        "password": "$2b$12$zwAWixLGuUoEathyQlienOw4B.e8gMY6tWlyC7D4lHc3HrRDI8wO.",
+        "role": "estudiante"
+    },
+    "bruno": {
+        "password": "$2b$12$YzcacW/g.OGbaVfYu82OXeCT2s8cwHKL37NGOd0ArTz9O.Pizuvhm",
+        "role": "estudiante"
+    },
+    "NachoSc": {
+        "password": "$2b$12$lC.1G3aeNLEK1g.36IwSMuXtXBZD/CU3NyDDHrh1f.I.1pNGvsTL6",
+        "role": "usuario"
+    }
+}
