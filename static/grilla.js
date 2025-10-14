@@ -167,6 +167,7 @@ function eliminar_nota(id) {
     }
 
     if (confirm('¿Estás seguro de que quieres eliminar esta nota?')) {
+        //baja logica 
         fetch(`/api/v1/grilla/${id}`, {
             method: 'DELETE',
             headers: {
@@ -204,6 +205,7 @@ function completar_nota(id) {
     }
 
     if (confirm('¿Marcar esta nota como completada?')) {
+        //C ompleta la tarea  -> cambia campo completada = tru y fecha_modificacion = actual
         fetch(`/api/v1/grilla/${id}/completar`, {
             method: 'PUT',
             headers: {

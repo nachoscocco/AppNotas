@@ -28,7 +28,6 @@ class Registro(Resource):
         data = request.get_json()
         username = data.get("username")
         password = data.get("password")
-        # role = data.get("role", "basico")  # por defecto "estudiante"
         role = "user"
 
         if not username or not password:

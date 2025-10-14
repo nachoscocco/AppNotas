@@ -30,10 +30,11 @@ api.add_resource(Login, "/auth/login")
 # Recursos principales
 api.add_resource(Grilla, "/grilla", "/grilla/<int:id_nota>", "/grilla/<int:id_nota>/completar", "/grilla/completadas")
 
+
 # ==================== RUTAS ESTÁTICAS ====================
 @app.route("/")
 def index():
-    """Página principal - Login"""
+    """Login"""
     return send_from_directory("static", "login.html")
 
 @app.route("/grilla")
@@ -47,7 +48,7 @@ def alta_nota_page():
     return send_from_directory("static", "alta_nota.html")
 
 
-# Servir archivos estáticos (CSS, JS, imágenes)
+# archivos estáticos
 @app.route("/static/<path:filename>")
 def serve_static(filename):
     """Servir archivos estáticos"""
@@ -62,15 +63,8 @@ def not_found(error):
 def internal_error(error):
     return jsonify({"error": "Error interno del servidor"}), 500
 
-# ==================== RUTAS DE INFORMACIÓN ====================
-@app.route("/api/health")
-def health_check():
-    """Endpoint de salud de la aplicación"""
-    return jsonify({
-        "status": "ok",
-        "message": "API funcionando correctamente",
-        "version": "1.0.0"
-    })
+#TODO: Ruta especifica para admins para ver notas x usuario
+#TODO: Ruta para ver notas borradas
 
 
 

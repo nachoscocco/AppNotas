@@ -39,7 +39,7 @@
             // Guardamos el token JWT en localStorage
             localStorage.setItem('access_token', datos_acceso.access_token);
             console.log(datos_acceso.access_token);
-            // Redirigimos
+
             window.location.href = '/grilla';
         } else if (datos_acceso.message) {
             // Mostrar el error:

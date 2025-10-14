@@ -67,11 +67,11 @@ def obtener_notas_completadas_usuario(nombre_usuario):
     )
     return notas_ordenadas
                                                           
-# Resource Links:
+ #Clase grilla para manejar abm de notas (quizas debio haberse llamado nota xD)                                                         
 class Grilla(Resource):
     @jwt_required()
     def get(self, id_nota = None):
-        """Retorna una lista de las notas a mostrar"""
+        """Retorna una lista de las notas a mostrar que no fueron completadas"""
         try:
             usuario_logueado = get_jwt_identity()
             print(usuario_logueado)
@@ -80,6 +80,7 @@ class Grilla(Resource):
                 
             nombre_usuario = usuario_logueado.get("username")
 
+            """Si el url viene /grilla/completadas significa que el get me tiene que si fueron completadas"""
             if request.path.endswith("/completadas"):
                 notas_usuario = obtener_notas_completadas_usuario(nombre_usuario)            
             else:
@@ -90,7 +91,6 @@ class Grilla(Resource):
         
 
         except Exception as e:
-            print(f"DEBUG: Error = {str(e)}")
             return {"message": f"Error al procesar la solicitud: {str(e)}"}, 500
 
     @jwt_required()

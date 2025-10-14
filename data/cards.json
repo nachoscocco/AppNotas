@@ -86,5 +86,38 @@
         "fecha_modificacion": "2025-10-13T20:22:11.504286",
         "usuario": "NachoSc",
         "completada": true
+    },
+    {
+        "id": 9,
+        "titulo": "(1) Nota URGENTE!!!",
+        "descripcion": "",
+        "prioridad": "Urgente",
+        "fecha_creacion": "2025-10-14T00:28:27.764647",
+        "fecha_baja": null,
+        "fecha_modificacion": null,
+        "usuario": "NachoSc",
+        "completada": false
+    },
+    {
+        "id": 10,
+        "titulo": "(2) Nota no tan urgente !!!",
+        "descripcion": "Dale tranqui ",
+        "prioridad": "Media",
+        "fecha_creacion": "2025-10-14T00:28:50.527541",
+        "fecha_baja": null,
+        "fecha_modificacion": null,
+        "usuario": "NachoSc",
+        "completada": false
+    },
+    {
+        "id": 11,
+        "titulo": "(3) Nota de baja prioridad",
+        "descripcion": "Tranqui",
+        "prioridad": "Baja",
+        "fecha_creacion": "2025-10-14T00:29:07.097470",
+        "fecha_baja": null,
+        "fecha_modificacion": null,
+        "usuario": "NachoSc",
+        "completada": false
     }
 ]
