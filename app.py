@@ -28,7 +28,7 @@ api.add_resource(Registro, "/auth/registro")
 api.add_resource(Login, "/auth/login")
 
 # Recursos principales
-api.add_resource(Grilla, "/grilla")
+api.add_resource(Grilla, "/grilla", "/grilla/<int:id_nota>", "/grilla/<int:id_nota>/completar", "/grilla/completadas")
 
 # ==================== RUTAS ESTÁTICAS ====================
 @app.route("/")
@@ -40,6 +40,11 @@ def index():
 def grilla_page():
     """Página de grilla de tareas"""
     return send_from_directory("static", "grilla.html")
+
+@app.route("/alta-nota")
+def alta_nota_page():
+    """Página para crear nueva nota"""
+    return send_from_directory("static", "alta_nota.html")
 
 
 # Servir archivos estáticos (CSS, JS, imágenes)
@@ -68,17 +73,6 @@ def health_check():
     })
 
 
-@app.route("/api/routes")
-def list_routes():
-    """Lista todas las rutas disponibles"""
-    routes = []
-    for rule in app.url_map.iter_rules():
-        routes.append({
-            "endpoint": rule.endpoint,
-            "methods": list(rule.methods),
-            "rule": str(rule)
-        })
-    return jsonify({"routes": routes})
 
 if __name__ == "__main__":
     app.run(debug=True)

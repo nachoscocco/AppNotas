@@ -1,32 +1,90 @@
 [
-  {
-    "id": 1,
-    "titulo": "(1)Configurar el entorno de desarrollo",
-    "descripcion": "Instalar Python, MySQL y las librerías necesarias para el proyecto.",
-    "prioridad": "Urgente",
-    "fecha_creacion": "2025-10-12T21:10:15.748231",
-    "fecha_modif" : null,
-    "completada": false,
-    "usuario" : "NachoSc"
-  },
-  {
-    "id": 2,
-    "titulo": "(2)Maquetar la vista principal con HTML y CSS",
-    "descripcion": "Convertir el mockup de Draw.IO en un archivo HTML estático con los estilos básicos definidos.",
-    "prioridad": "Media",
-    "fecha_creacion": "2025-10-12T21:11:40.123456",
-    "fecha_modif" : null,
-    "completada": true,
-    "usuario" : "NachoSc"
-  },
-  {
-    "id": 3,
-    "titulo": "(3)Crear la API para el alta de usuarios",
-    "descripcion": "Desarrollar el endpoint en Python que permita registrar nuevos usuarios en la base de datos.",
-    "prioridad": "Baja",
-    "fecha_creacion": "2025-10-12T21:12:55.987654",
-    "fecha_modif" : null,
-    "completada": false,
-    "usuario" : "bruno"
-  }
+    {
+        "id": 1,
+        "titulo": "(1)Configurar el entorno de desarrollo",
+        "descripcion": "Instalar Python, MySQL y las librerías necesarias para el proyecto.",
+        "prioridad": "Urgente",
+        "fecha_creacion": "2025-10-12T21:10:15.748231",
+        "fecha_modificacion": "2025-10-13T19:26:35.508969",
+        "fecha_baja": null,
+        "completada": true,
+        "usuario": "NachoSc"
+    },
+    {
+        "id": 2,
+        "titulo": "(2)Maquetar la vista principal con HTML y CSS",
+        "descripcion": "Convertir el mockup de Draw.IO en un archivo HTML estático con los estilos básicos definidos.",
+        "prioridad": "Media",
+        "fecha_creacion": "2025-10-12T21:11:40.123456",
+        "fecha_modificacion": "2025-10-13T19:20:23.549224",
+        "fecha_baja": null,
+        "completada": true,
+        "usuario": "NachoSc"
+    },
+    {
+        "id": 3,
+        "titulo": "(3)Crear la API para el alta de usuarios",
+        "descripcion": "Desarrollar el endpoint en Python que permita registrar nuevos usuarios en la base de datos.",
+        "prioridad": "Baja",
+        "fecha_creacion": "2025-10-12T21:12:55.987654",
+        "fecha_modificacion": null,
+        "fecha_baja": null,
+        "completada": false,
+        "usuario": "bruno"
+    },
+    {
+        "id": 4,
+        "titulo": "Titulo",
+        "descripcion": "asdas",
+        "prioridad": "Urgente",
+        "fecha_creacion": "2025-10-13T18:46:36.620917",
+        "fecha_baja": null,
+        "fecha_modificacion": "2025-10-13T20:20:05.626208",
+        "usuario": "NachoSc",
+        "completada": true
+    },
+    {
+        "id": 5,
+        "titulo": "Titulo",
+        "descripcion": "asda",
+        "prioridad": "Baja",
+        "fecha_creacion": "2025-10-13T19:08:48.799694",
+        "fecha_baja": "2025-10-13T19:20:01.957404",
+        "fecha_modificacion": null,
+        "usuario": "NachoSc",
+        "completada": false
+    },
+    {
+        "id": 6,
+        "titulo": "Nacho prueba 1",
+        "descripcion": "adsasd",
+        "prioridad": "Baja",
+        "fecha_creacion": "2025-10-13T20:21:23.387591",
+        "fecha_baja": null,
+        "fecha_modificacion": "2025-10-13T20:25:10.524461",
+        "usuario": "NachoSc",
+        "completada": true
+    },
+    {
+        "id": 7,
+        "titulo": "Nacho uirgente",
+        "descripcion": "asdasd",
+        "prioridad": "Urgente",
+        "fecha_creacion": "2025-10-13T20:21:33.010514",
+        "fecha_baja": null,
+        "fecha_modificacion": "2025-10-13T20:23:42.317440",
+        "usuario": "NachoSc",
+        "completada": true
+    },
+    {
+        "id": 8,
+        "titulo": "Nacho prueba media orden ",
+        "descripcion": "asda",
+        "prioridad": "Media",
+        "fecha_creacion": "2025-10-13T20:21:50.141169",
+        "fecha_baja": null,
+        "fecha_modificacion": "2025-10-13T20:22:11.504286",
+        "usuario": "NachoSc",
+        "completada": true
+    }
 ]

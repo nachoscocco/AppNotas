@@ -29,7 +29,7 @@ class Registro(Resource):
         username = data.get("username")
         password = data.get("password")
         # role = data.get("role", "basico")  # por defecto "estudiante"
-        role = "usuarioBase"
+        role = "user"
 
         if not username or not password:
             return {"message": "Faltan datos"}, 400
