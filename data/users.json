@@ -18,5 +18,9 @@
     "NachoSc": {
         "password": "$2b$12$lC.1G3aeNLEK1g.36IwSMuXtXBZD/CU3NyDDHrh1f.I.1pNGvsTL6",
         "role": "usuarioBase"
+    },
+    "nacho": {
+        "password": "$2b$12$YmYKencMsDMoBGmZoEUMf.1jZ0A/c.CU9HT4SyySuQ7sKJ3HVIQMK",
+        "role": "user"
     }
 }

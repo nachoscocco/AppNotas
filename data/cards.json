@@ -119,5 +119,38 @@
         "fecha_modificacion": null,
         "usuario": "NachoSc",
         "completada": false
+    },
+    {
+        "id": 12,
+        "titulo": "nachosc",
+        "descripcion": "",
+        "prioridad": "Media",
+        "fecha_creacion": "2026-05-13T13:08:04.554696",
+        "fecha_baja": null,
+        "fecha_modificacion": "2026-05-13T13:08:21.812445",
+        "usuario": "nacho",
+        "completada": true
+    },
+    {
+        "id": 13,
+        "titulo": "prueba 2",
+        "descripcion": "",
+        "prioridad": "Urgente",
+        "fecha_creacion": "2026-05-13T13:08:15.392975",
+        "fecha_baja": null,
+        "fecha_modificacion": "2026-05-13T13:08:18.672703",
+        "usuario": "nacho",
+        "completada": true
+    },
+    {
+        "id": 14,
+        "titulo": "Mudanza",
+        "descripcion": "me mudo en 2 semanas y necesito\n*sillas\n*colchon*\n*mesa",
+        "prioridad": "Media",
+        "fecha_creacion": "2026-05-13T13:09:46.724311",
+        "fecha_baja": null,
+        "fecha_modificacion": "2026-05-13T13:10:09.783514",
+        "usuario": "nacho",
+        "completada": false
     }
 ]
