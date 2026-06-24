@@ -1,26 +1,35 @@
 {
     "docente1": {
         "password": "$2b$12$4qsDqMs3Wd/H7euJBhZYEOsk3/KTbDejo/6uMxZuRwNfgk3HPB07.",
-        "role": "docente"
+        "role": "docente",
+        "verificado": true
     },
     "docente2": {
         "password": "$2b$12$htFd6iYL2OMtPPBS3aensuijVPcCYQNK2TC0BLil1Ooya7e6c8uMe",
-        "role": "docente"
+        "role": "docente",
+        "verificado": true
     },
     "alicia": {
         "password": "$2b$12$zwAWixLGuUoEathyQlienOw4B.e8gMY6tWlyC7D4lHc3HrRDI8wO.",
-        "role": "estudiante"
+        "role": "estudiante",
+        "verificado": true
     },
     "bruno": {
         "password": "$2b$12$YzcacW/g.OGbaVfYu82OXeCT2s8cwHKL37NGOd0ArTz9O.Pizuvhm",
-        "role": "estudiante"
-    },
-    "NachoSc": {
-        "password": "$2b$12$lC.1G3aeNLEK1g.36IwSMuXtXBZD/CU3NyDDHrh1f.I.1pNGvsTL6",
-        "role": "usuarioBase"
+        "role": "estudiante",
+        "verificado": true
     },
     "nacho": {
-        "password": "$2b$12$YmYKencMsDMoBGmZoEUMf.1jZ0A/c.CU9HT4SyySuQ7sKJ3HVIQMK",
-        "role": "user"
+        "email": "nachoscocco14@gmial.com",
+        "password": "$2b$12$pxtSJUHg60pKwr/Wt.v6dO1.MV.U9VNWEbL07QFWMubAcH0aJejZK",
+        "role": "user",
+        "verificado": false,
+        "codigo_verificacion": "3ULIQD"
+    },
+    "nacho2": {
+        "email": "ignacioscocco20@gmail.com",
+        "password": "$2b$12$ZKS/OT59u8tCEVaQfyBj1esnIXyWMwyBPJCF6axalBJP0VdFmtgHy",
+        "role": "user",
+        "verificado": true
     }
 }

@@ -122,6 +122,7 @@ button { font-family: inherit; }
 }
 .btn-ghost:hover { color: var(--fg); border-color: var(--border-strong); background: var(--bg-elev); }
 .login-error { color: var(--urgent); font-size: 13px; min-height: 18px; }
+.login-success { color: var(--baja); font-size: 13px; padding: 8px 12px; background: var(--baja-soft); border-radius: 6px; margin-bottom: 8px; text-align: center; }
 
 /* ====================== App shell ====================== */
 .app {
@@ -590,3 +591,20 @@ button { font-family: inherit; }
 .kanban-list::-webkit-scrollbar-thumb {
   background: var(--border-strong); border-radius: 4px;
 }
+
+/* ====================== Spinner ====================== */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
