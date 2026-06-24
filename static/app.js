@@ -82,6 +82,9 @@ const S = {
   qaDesc: '',
   qaPri: 'Media',
   loginMode: 'login',
+  verifyUser: '',
+  verifiedMessage: '',
+  submitting: false,
 };
 
 // ── API ────────────────────────────────────────────────────────────
@@ -111,7 +114,10 @@ async function loadNotas() {
   S.loading = false;
   if (!r1 || !r2 || !r3) { renderApp(); return; }
   const [d1, d2, d3] = await Promise.all([r1.json(), r2.json(), r3.json()]);
-  S.notas = [...(d1.notas || []), ...(d2.notas || []), ...(d3.notas || [])];
+  const rawNotas = [...(d1.notas || []), ...(d2.notas || []), ...(d3.notas || [])];
+  const map = new Map();
+  rawNotas.forEach(n => map.set(n.id, n));
+  S.notas = Array.from(map.values());
   renderApp();
 }
 
@@ -132,15 +138,36 @@ async function doLogin(username, password) {
   return null;
 }
 
-async function doRegistro(username, password) {
+async function doRegistro(username, email, password, confirmPassword) {
   const res = await fetch('/api/v1/auth/registro', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+      confirm_password: confirmPassword
+    }),
   });
   const data = await res.json();
   if (!res.ok) return data.message || 'Error al registrar';
-  return doLogin(username, password);
+  S.verifyUser = username;
+  S.loginMode = 'verify';
+  render();
+  return null;
+}
+
+async function doVerificar(codigo) {
+  const res = await fetch('/api/v1/auth/verificar-codigo', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: S.verifyUser, codigo: codigo }),
+  });
+  if (!res.ok) return 'Código incorrecto';
+  S.loginMode = 'login';
+  S.verifiedMessage = '¡Tu cuenta ha sido verificada con éxito! Ya podés iniciar sesión.';
+  render();
+  return null;
 }
 
 function doLogout() {
@@ -458,22 +485,37 @@ function render() {
 
 function renderLogin(err) {
   const root = document.getElementById('root');
-  if (S.loginMode === 'registro') {
+
+  if (S.loginMode === 'verify') {
+    root.innerHTML = `<div class="login-wrap"><form class="login-card" id="verify-form">
+  <div class="login-mark">Notas</div>
+  <h1 class="login-title">Verificación</h1>
+  <p class="login-sub">Ingresá el código enviado a tu email.</p>
+  <div class="field"><label for="code">Código</label><input id="code" class="input" name="code" placeholder="XXXXXX" autofocus/></div>
+  <div class="login-error">${esc(err || '')}</div>
+  <button class="btn-primary" type="submit">Validar cuenta</button>
+</form></div><div class="toast"></div>`;
+  } else if (S.loginMode === 'registro') {
     root.innerHTML = `<div class="login-wrap"><form class="login-card" id="registro-form">
   <div class="login-mark">Notas</div>
   <h1 class="login-title">Crear cuenta</h1>
-  <p class="login-sub">Elegí un usuario y contraseña.</p>
+  <p class="login-sub">Elegí un usuario, email y contraseña.</p>
   <div class="field"><label for="r-user">Usuario</label><input id="r-user" class="input" name="username" autocomplete="username" placeholder="nacho" autofocus/></div>
+  <div class="field"><label for="r-email">Email</label><input id="r-email" class="input" type="email" name="email" autocomplete="email" placeholder="mail@ejemplo.com"/></div>
   <div class="field"><label for="r-pass">Contraseña</label><input id="r-pass" class="input" type="password" name="password" autocomplete="new-password" placeholder="••••••••"/></div>
+  <div class="field"><label for="r-pass2">Repetir contraseña</label><input id="r-pass2" class="input" type="password" name="password_conf" autocomplete="new-password" placeholder="••••••••"/></div>
   <div class="login-error">${esc(err || '')}</div>
   <button class="btn-primary" type="submit">Registrarse</button>
   <button class="btn-ghost" type="button" data-action="switch-login" style="justify-content:center">Ya tengo cuenta</button>
 </form></div><div class="toast"></div>`;
   } else {
+    const successMsg = S.verifiedMessage;
+    S.verifiedMessage = '';
     root.innerHTML = `<div class="login-wrap"><form class="login-card" id="login-form">
   <div class="login-mark">Notas</div>
   <h1 class="login-title">Hola de nuevo.</h1>
   <p class="login-sub">Ingresá para ver tus notas.</p>
+  ${successMsg ? `<div class="login-success">${esc(successMsg)}</div>` : ''}
   <div class="field"><label for="l-user">Usuario</label><input id="l-user" class="input" name="username" autocomplete="username" placeholder="nacho" autofocus/></div>
   <div class="field"><label for="l-pass">Contraseña</label><input id="l-pass" class="input" type="password" name="password" autocomplete="current-password" placeholder="••••••••"/></div>
   <div class="login-error">${esc(err || '')}</div>
@@ -582,8 +624,44 @@ function handleKeydown(e) {
   }
 }
 
+function setFormSubmitting(form, submitting, loadingText, originalText) {
+  const btn = form.querySelector('button[type="submit"]');
+  const ghostBtn = form.querySelector('.btn-ghost');
+  const inputs = form.querySelectorAll('input');
+  
+  if (submitting) {
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span>${loadingText}`;
+    }
+    if (ghostBtn) {
+      ghostBtn.disabled = true;
+      ghostBtn.style.pointerEvents = 'none';
+      ghostBtn.style.opacity = '0.5';
+    }
+    inputs.forEach(input => {
+      input.disabled = true;
+    });
+  } else {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+    if (ghostBtn) {
+      ghostBtn.disabled = false;
+      ghostBtn.style.pointerEvents = '';
+      ghostBtn.style.opacity = '';
+    }
+    inputs.forEach(input => {
+      input.disabled = false;
+    });
+  }
+}
+
 async function handleSubmit(e) {
   e.preventDefault();
+  if (S.submitting) return;
+
   const form = e.target;
   const setErr = msg => { const el = document.querySelector('.login-error'); if (el) el.textContent = msg; };
 
@@ -591,19 +669,44 @@ async function handleSubmit(e) {
     const user = form.querySelector('#l-user').value.trim();
     const pass = form.querySelector('#l-pass').value;
     if (!user || !pass) { setErr('Ingresá usuario y contraseña.'); return; }
-    const submitBtn = form.querySelector('[type="submit"]');
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Ingresando…'; }
+    
+    S.submitting = true;
+    setFormSubmitting(form, true, 'Ingresando...', 'Ingresar');
     const err = await doLogin(user, pass);
-    if (err) { setErr(err); if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Ingresar'; } }
+    S.submitting = false;
+    if (err) {
+      setErr(err);
+      setFormSubmitting(form, false, '', 'Ingresar');
+    }
 
   } else if (form.id === 'registro-form') {
     const user = form.querySelector('#r-user').value.trim();
+    const email = form.querySelector('#r-email').value.trim();
     const pass = form.querySelector('#r-pass').value;
-    if (!user || !pass) { setErr('Ingresá usuario y contraseña.'); return; }
-    const submitBtn = form.querySelector('[type="submit"]');
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Registrando…'; }
-    const err = await doRegistro(user, pass);
-    if (err) { setErr(err); if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Registrarse'; } }
+    const pass2 = form.querySelector('#r-pass2').value;
+    if (!user || !email || !pass || !pass2) { setErr('Completá todos los campos.'); return; }
+    
+    S.submitting = true;
+    setFormSubmitting(form, true, 'Registrando...', 'Registrarse');
+    const err = await doRegistro(user, email, pass, pass2);
+    S.submitting = false;
+    if (err) {
+      setErr(err);
+      setFormSubmitting(form, false, '', 'Registrarse');
+    }
+
+  } else if (form.id === 'verify-form') {
+    const code = form.querySelector('#code').value.trim();
+    if (!code) { setErr('Ingresá el código.'); return; }
+    
+    S.submitting = true;
+    setFormSubmitting(form, true, 'Validando...', 'Validar cuenta');
+    const err = await doVerificar(code);
+    S.submitting = false;
+    if (err) {
+      setErr(err);
+      setFormSubmitting(form, false, '', 'Validar cuenta');
+    }
   }
 }
 

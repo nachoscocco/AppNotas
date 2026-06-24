@@ -2,10 +2,10 @@ import bcrypt
 import json
 
 usuarios = {
-        "docente1": {"password": "docente1", "role": "docente"},
-        "docente2": {"password": "docente2", "role": "docente"},
-        "alicia": {"password": "password123", "role": "estudiante"},
-        "bruno": {"password": "qwerty", "role": "estudiante"},
+        "docente1": {"password": "docente1", "role": "docente", "verificado": True},
+        "docente2": {"password": "docente2", "role": "docente", "verificado": True},
+        "alicia": {"password": "password123", "role": "estudiante", "verificado": True},
+        "bruno": {"password": "qwerty", "role": "estudiante", "verificado": True},
 }
 
 for usuario in usuarios:
