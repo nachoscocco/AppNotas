@@ -43,7 +43,7 @@
         "nombre": "Ignacio",
         "apellido": "Scocco",
         "email": "nachoscocco14@gmial.com",
-        "password": "$2b$12$pxtSJUHg60pKwr/Wt.v6dO1.MV.U9VNWEbL07QFWMubAcH0aJejZK",
+        "password": "$2b$12$b1NhAkmSaY6AMHmxbkRF4uEsUcyQjOXh6laEHS0cakPqKD/g/hdka",
         "role": "user",
         "activo": true,
         "verificado": true,
