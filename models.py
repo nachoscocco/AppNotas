@@ -410,6 +410,13 @@ def inicializar_y_migrar_db(app, base_dir):
                         )
 
                 db.session.commit()
+                if db.engine.dialect.name == "postgresql":
+                    db.session.execute(
+                        text(
+                            "SELECT setval(pg_get_serial_sequence('notas', 'id'), COALESCE((SELECT MAX(id) FROM notas), 1));"
+                        )
+                    )
+                    db.session.commit()
             except Exception as e:
                 db.session.rollback()
                 print(f"[AppNotas DB] Error al migrar notas iniciales: {e}")
