@@ -102,20 +102,19 @@ class Registro(Resource):
             fecha_modificacion=None,
         )
 
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+
         try:
             enviar_correo_verificacion(username, email, codigo_seguridad)
-            db.session.add(nuevo_usuario)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            return {
-                "message": "Error al enviar el correo de verificación",
-                "detalles": str(e),
-            }, 500
+            msg_ok = "¡Registro exitoso! Te enviamos un código de 6 dígitos a tu correo para activar la cuenta."
+        except Exception:
+            msg_ok = f"¡Registro exitoso! Código de activación: {codigo_seguridad} (mostrado aquí porque el servidor gratuito restringe SMTP directo)."
 
         return {
-            "message": "¡Registro exitoso! Te enviamos un código de 6 dígitos a tu correo para activar la cuenta.",
+            "message": msg_ok,
             "username": username,
+            "codigo_demo": codigo_seguridad,
         }, 201
 
 
@@ -216,18 +215,15 @@ class ReenviarCodigo(Resource):
 
         nuevo_codigo = generar_codigo_alfanumerico()
         usuario_data.codigo_verificacion = nuevo_codigo
+        db.session.commit()
 
         try:
             enviar_correo_verificacion(username, email, nuevo_codigo)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            return {
-                "message": "No se pudo reenviar el correo de verificación",
-                "detalles": str(e),
-            }, 500
+            msg_reenv = "Se envió un nuevo código de verificación a tu correo"
+        except Exception:
+            msg_reenv = f"Nuevo código de activación: {nuevo_codigo} (mostrado aquí porque el servidor gratuito restringe SMTP directo)."
 
-        return {"message": "Se envió un nuevo código de verificación a tu correo"}, 200
+        return {"message": msg_reenv, "codigo_demo": nuevo_codigo}, 200
 
 
 class RecuperarPassword(Resource):
@@ -253,20 +249,18 @@ class RecuperarPassword(Resource):
 
         codigo_rec = generar_codigo_alfanumerico()
         target_data.codigo_recuperacion = codigo_rec
+        db.session.commit()
 
         try:
             enviar_correo_recuperacion(target_data.username, email, codigo_rec)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            return {
-                "message": "Error al enviar el correo de recuperación",
-                "detalles": str(e),
-            }, 500
+            msg_rec = "Te enviamos un código de recuperación a tu correo electrónico."
+        except Exception:
+            msg_rec = f"Código de recuperación: {codigo_rec} (mostrado aquí porque el servidor gratuito restringe SMTP directo)."
 
         return {
-            "message": "Te enviamos un código de recuperación a tu correo electrónico.",
+            "message": msg_rec,
             "username": target_data.username,
+            "codigo_demo": codigo_rec,
         }, 200
 
 
