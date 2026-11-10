@@ -1,156 +1,228 @@
 [
     {
         "id": 1,
-        "titulo": "(1)Configurar el entorno de desarrollo",
-        "descripcion": "Instalar Python, MySQL y las librerías necesarias para el proyecto.",
+        "titulo": "Configurar el entorno de desarrollo",
+        "descripcion": "Instalar Python, Flask, bcrypt, Flask-Mail y las librerías necesarias en el entorno local.",
         "prioridad": "Urgente",
+        "categoria": "Estudio",
+        "fijada": false,
+        "fecha_vencimiento": "2026-10-20",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Crear entorno virtual e instalar requirements.txt",
+                "hecha": true
+            },
+            {
+                "id": 2,
+                "texto": "Configurar archivo .env con credenciales SMTP",
+                "hecha": true
+            }
+        ],
+        "adjuntos": [],
         "fecha_creacion": "2025-10-12T21:10:15.748231",
         "fecha_modificacion": "2025-10-13T19:26:35.508969",
         "fecha_baja": null,
         "completada": true,
-        "usuario": "NachoSc"
+        "usuario": "nacho"
     },
     {
         "id": 2,
-        "titulo": "(2)Maquetar la vista principal con HTML y CSS",
-        "descripcion": "Convertir el mockup de Draw.IO en un archivo HTML estático con los estilos básicos definidos.",
+        "titulo": "Maquetar vista SPA y modo oscuro",
+        "descripcion": "Diseñar vistas Kanban, Lista y Tarjetas con soporte de temas Dark/Light y panel lateral.",
         "prioridad": "Media",
+        "categoria": "Trabajo",
+        "fijada": false,
+        "fecha_vencimiento": "2026-10-22",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Implementar variables CSS y paleta semafórica",
+                "hecha": true
+            },
+            {
+                "id": 2,
+                "texto": "Agregar tablero Kanban por prioridad",
+                "hecha": true
+            }
+        ],
+        "adjuntos": [],
         "fecha_creacion": "2025-10-12T21:11:40.123456",
         "fecha_modificacion": "2025-10-13T19:20:23.549224",
         "fecha_baja": null,
         "completada": true,
-        "usuario": "NachoSc"
+        "usuario": "nacho"
     },
     {
         "id": 3,
-        "titulo": "(3)Crear la API para el alta de usuarios",
-        "descripcion": "Desarrollar el endpoint en Python que permita registrar nuevos usuarios en la base de datos.",
-        "prioridad": "Baja",
-        "fecha_creacion": "2025-10-12T21:12:55.987654",
-        "fecha_modificacion": null,
+        "titulo": "Preparar defensa de Prácticas Profesionalizantes",
+        "descripcion": "Repasar el flujo de autenticación JWT, verificación OTP por correo y demostración en vivo.",
+        "prioridad": "Urgente",
+        "categoria": "Estudio",
+        "fijada": true,
+        "fecha_vencimiento": "2026-11-05",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Validar documento SRS actualizado v3.0",
+                "hecha": true
+            },
+            {
+                "id": 2,
+                "texto": "Probar subida de archivos adjuntos PDF e imágenes",
+                "hecha": true
+            },
+            {
+                "id": 3,
+                "texto": "Ensayar presentación con el equipo",
+                "hecha": false
+            }
+        ],
+        "adjuntos": [],
+        "fecha_creacion": "2026-06-15T10:12:55.987654",
+        "fecha_modificacion": "2026-10-26T11:30:00.000000",
         "fecha_baja": null,
         "completada": false,
-        "usuario": "bruno"
+        "usuario": "nacho"
     },
     {
         "id": 4,
-        "titulo": "Titulo",
-        "descripcion": "asdas",
+        "titulo": "Implementar edición inline y categorías",
+        "descripcion": "Habilitar PUT /api/v1/grilla/<id> con soporte de categorías Trabajo, Casa, Personal y Estudio.",
         "prioridad": "Urgente",
-        "fecha_creacion": "2025-10-13T18:46:36.620917",
+        "categoria": "Trabajo",
+        "fijada": true,
+        "fecha_vencimiento": "2026-10-28",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Endpoint PUT en resources/grilla.py",
+                "hecha": true
+            },
+            {
+                "id": 2,
+                "texto": "Formulario de edición en Detail Panel",
+                "hecha": false
+            }
+        ],
+        "adjuntos": [],
+        "fecha_creacion": "2026-06-18T18:46:36.620917",
         "fecha_baja": null,
-        "fecha_modificacion": "2025-10-13T20:20:05.626208",
-        "usuario": "NachoSc",
-        "completada": true
+        "fecha_modificacion": "2026-10-26T11:45:05.626208",
+        "usuario": "nacho",
+        "completada": false
     },
     {
         "id": 5,
-        "titulo": "Titulo",
-        "descripcion": "asda",
+        "titulo": "Borrador viejo de estilos Bootstrap",
+        "descripcion": "Nota de prueba descartada tras migrar a la nueva interfaz SPA.",
         "prioridad": "Baja",
+        "categoria": "Personal",
+        "fijada": false,
+        "fecha_vencimiento": null,
+        "subtareas": [],
+        "adjuntos": [],
         "fecha_creacion": "2025-10-13T19:08:48.799694",
-        "fecha_baja": "2025-10-13T19:20:01.957404",
+        "fecha_baja": "2026-05-13T19:20:01.957404",
         "fecha_modificacion": null,
-        "usuario": "NachoSc",
+        "usuario": "nacho",
         "completada": false
     },
     {
         "id": 6,
-        "titulo": "Nacho prueba 1",
-        "descripcion": "adsasd",
-        "prioridad": "Baja",
-        "fecha_creacion": "2025-10-13T20:21:23.387591",
-        "fecha_baja": null,
-        "fecha_modificacion": "2025-10-13T20:25:10.524461",
-        "usuario": "NachoSc",
-        "completada": true
-    },
-    {
-        "id": 7,
-        "titulo": "Nacho uirgente",
-        "descripcion": "asdasd",
-        "prioridad": "Urgente",
-        "fecha_creacion": "2025-10-13T20:21:33.010514",
-        "fecha_baja": null,
-        "fecha_modificacion": "2025-10-13T20:23:42.317440",
-        "usuario": "NachoSc",
-        "completada": true
-    },
-    {
-        "id": 8,
-        "titulo": "Nacho prueba media orden ",
-        "descripcion": "asda",
+        "titulo": "Organizar mudanza del fin de semana",
+        "descripcion": "Me mudo en 2 semanas y necesito coordinar flete y embalaje.",
         "prioridad": "Media",
-        "fecha_creacion": "2025-10-13T20:21:50.141169",
-        "fecha_baja": null,
-        "fecha_modificacion": "2025-10-13T20:22:11.504286",
-        "usuario": "NachoSc",
-        "completada": true
-    },
-    {
-        "id": 9,
-        "titulo": "(1) Nota URGENTE!!!",
-        "descripcion": "",
-        "prioridad": "Urgente",
-        "fecha_creacion": "2025-10-14T00:28:27.764647",
-        "fecha_baja": null,
-        "fecha_modificacion": null,
-        "usuario": "NachoSc",
-        "completada": false
-    },
-    {
-        "id": 10,
-        "titulo": "(2) Nota no tan urgente !!!",
-        "descripcion": "Dale tranqui ",
-        "prioridad": "Media",
-        "fecha_creacion": "2025-10-14T00:28:50.527541",
-        "fecha_baja": null,
-        "fecha_modificacion": null,
-        "usuario": "NachoSc",
-        "completada": false
-    },
-    {
-        "id": 11,
-        "titulo": "(3) Nota de baja prioridad",
-        "descripcion": "Tranqui",
-        "prioridad": "Baja",
-        "fecha_creacion": "2025-10-14T00:29:07.097470",
-        "fecha_baja": null,
-        "fecha_modificacion": null,
-        "usuario": "NachoSc",
-        "completada": false
-    },
-    {
-        "id": 12,
-        "titulo": "nachosc",
-        "descripcion": "",
-        "prioridad": "Media",
-        "fecha_creacion": "2026-05-13T13:08:04.554696",
-        "fecha_baja": null,
-        "fecha_modificacion": "2026-05-13T13:08:21.812445",
-        "usuario": "nacho",
-        "completada": true
-    },
-    {
-        "id": 13,
-        "titulo": "prueba 2",
-        "descripcion": "",
-        "prioridad": "Urgente",
-        "fecha_creacion": "2026-05-13T13:08:15.392975",
-        "fecha_baja": null,
-        "fecha_modificacion": "2026-05-13T13:08:18.672703",
-        "usuario": "nacho",
-        "completada": true
-    },
-    {
-        "id": 14,
-        "titulo": "Mudanza",
-        "descripcion": "me mudo en 2 semanas y necesito\n*sillas\n*colchon*\n*mesa",
-        "prioridad": "Media",
+        "categoria": "Casa",
+        "fijada": false,
+        "fecha_vencimiento": "2026-11-10",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Embalar sillas y mesa del comedor",
+                "hecha": true
+            },
+            {
+                "id": 2,
+                "texto": "Confirmar horario del flete",
+                "hecha": false
+            },
+            {
+                "id": 3,
+                "texto": "Comprar cajas y cinta de embalaje",
+                "hecha": false
+            }
+        ],
+        "adjuntos": [],
         "fecha_creacion": "2026-05-13T13:09:46.724311",
         "fecha_baja": null,
         "fecha_modificacion": "2026-05-13T13:10:09.783514",
         "usuario": "nacho",
+        "completada": false
+    },
+    {
+        "id": 7,
+        "titulo": "Comprar repuestos de iluminación cocina",
+        "descripcion": "Lámparas LED cálidas y revisión de térmica principal.",
+        "prioridad": "Baja",
+        "categoria": "Casa",
+        "fijada": false,
+        "fecha_vencimiento": "2026-11-15",
+        "subtareas": [],
+        "adjuntos": [],
+        "fecha_creacion": "2026-06-20T16:20:00.000000",
+        "fecha_baja": null,
+        "fecha_modificacion": null,
+        "usuario": "nacho",
+        "completada": false
+    },
+    {
+        "id": 8,
+        "titulo": "Entregar informe de base de datos",
+        "descripcion": "Revisar normalización del DER y diccionario de datos con el equipo.",
+        "prioridad": "Media",
+        "categoria": "Estudio",
+        "fijada": false,
+        "fecha_vencimiento": "2026-10-30",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Corregir cardinalidades 1..1 y 0..*",
+                "hecha": true
+            }
+        ],
+        "adjuntos": [],
+        "fecha_creacion": "2026-06-21T14:00:00.000000",
+        "fecha_baja": null,
+        "fecha_modificacion": null,
+        "usuario": "bruno",
+        "completada": false
+    },
+    {
+        "id": 9,
+        "titulo": "Evaluar entregas de Prácticas Profesionalizantes I",
+        "descripcion": "Verificar cumplimiento de RF01, RF02 y RF03 del grupo AppNotas.",
+        "prioridad": "Urgente",
+        "categoria": "Trabajo",
+        "fijada": true,
+        "fecha_vencimiento": "2026-11-02",
+        "subtareas": [
+            {
+                "id": 1,
+                "texto": "Revisar documentación técnica PDF",
+                "hecha": true
+            },
+            {
+                "id": 2,
+                "texto": "Probar filtro de administrador por usuario",
+                "hecha": false
+            }
+        ],
+        "adjuntos": [],
+        "fecha_creacion": "2026-06-22T09:30:00.000000",
+        "fecha_baja": null,
+        "fecha_modificacion": null,
+        "usuario": "docente1",
         "completada": false
     }
 ]
