@@ -67,6 +67,7 @@ app.config["JWT_VERIFY_SUB"] = False
 
 app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
 app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT", 587))
+app.config["MAIL_TIMEOUT"] = 4
 app.config["MAIL_USE_TLS"] = os.environ.get("MAIL_USE_TLS", "true").lower() == "true"
 app.config["MAIL_USE_SSL"] = os.environ.get("MAIL_USE_SSL", "false").lower() == "true"
 app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME", "")
