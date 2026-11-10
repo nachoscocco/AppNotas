@@ -47,7 +47,9 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # ── Configuración de Base de Datos SQL (PostgreSQL Cloud + Fallback SQLite Local) ──
 raw_db_url = os.environ.get("DATABASE_URL", "").strip()
 if raw_db_url.startswith("postgres://"):
-    raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
+    raw_db_url = raw_db_url.replace("postgres://", "postgresql+psycopg2://", 1)
+elif raw_db_url.startswith("postgresql://"):
+    raw_db_url = raw_db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
 
 default_sqlite_path = os.path.join(DATA_FOLDER, "appnotas.db").replace("\\", "/")
 app.config["SQLALCHEMY_DATABASE_URI"] = (
