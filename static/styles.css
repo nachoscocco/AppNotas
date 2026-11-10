@@ -1251,7 +1251,7 @@ button, input, select, textarea { font-family: inherit; }
 /* Fila alineada exactamente a los renglones de la hoja */
 .note-row {
   display: grid;
-  grid-template-columns: 68px 1fr auto;
+  grid-template-columns: 68px 1fr auto auto;
   align-items: center;
   gap: 14px;
   padding: 6px 14px 6px 0;
@@ -1345,11 +1345,10 @@ button, input, select, textarea { font-family: inherit; }
   display: flex;
   align-items: center;
   gap: 3px;
-  opacity: 0;
+  opacity: 0.75;
   transition: opacity .12s;
 }
 .note-row:hover .actions { opacity: 1; }
-.note-row:hover .meta { display: none; }
 
 /* Etiquetas con efecto Marcador Resaltador (Highlighter) */
 .hl-priority {

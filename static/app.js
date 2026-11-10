@@ -150,9 +150,11 @@ async function apiFetch(method, path, body, isFormData = false) {
   if (body !== undefined) {
     opts.body = isFormData ? body : JSON.stringify(body);
   }
+  const reqToken = S.token;
   try {
     const res = await fetch('/api/v1' + path, opts);
-    if (res.status === 401 || res.status === 422) { doLogout(); return null; }
+    if (S.token !== reqToken) return null;
+    if (res.status === 401 || res.status === 422) { if (S.token) doLogout(); return null; }
     return res;
   } catch {
     showToast('Error de red');
@@ -227,7 +229,7 @@ async function loadPerfilAndAdmin() {
     }
     updateSidebar();
   }
-  loadFamiliaAndNotifs();
+  await loadFamiliaAndNotifs();
 }
 
 function isAdminRole() {
@@ -261,8 +263,7 @@ async function doLogin(username, password) {
   localStorage.setItem('notas_token', S.token);
   localStorage.setItem('notas_user', S.user);
   localStorage.setItem('notas_role', S.role);
-  await loadNotas();
-  loadPerfilAndAdmin();
+  await Promise.all([loadNotas(), loadPerfilAndAdmin()]);
   return null;
 }
 
@@ -282,6 +283,8 @@ async function doRegistro(username, nombre, apellido, email, password, confirmPa
   const data = await res.json();
   if (!res.ok) return data.message || 'Error al registrar';
   S.verifyUser = username;
+  S.verifyNotice = data.message || '';
+  S.verifyCodeDemo = data.codigo_demo || '';
   S.loginMode = 'verify';
   render();
   return null;
@@ -309,6 +312,11 @@ async function doReenviarCodigo() {
     body: JSON.stringify({ username: S.verifyUser }),
   });
   const data = await res.json();
+  if (data.codigo_demo) {
+    S.verifyNotice = data.message || '';
+    S.verifyCodeDemo = data.codigo_demo;
+    render();
+  }
   showToast(data.message || (res.ok ? 'Código reenviado' : 'No se pudo reenviar'));
 }
 
@@ -321,9 +329,11 @@ async function doRecuperarPassword(identificador) {
   const data = await res.json();
   if (!res.ok) return data.message || 'No se pudo procesar la solicitud';
   S.verifyUser = data.username || identificador;
+  S.verifyNotice = data.message || '';
+  S.verifyCodeDemo = data.codigo_demo || '';
   S.loginMode = 'reset';
   render();
-  showToast('Código de recuperación enviado a tu email');
+  showToast(data.message || 'Código de recuperación enviado a tu email');
   return null;
 }
 
@@ -349,8 +359,10 @@ async function doResetPassword(username, codigo, newPassword, confirmPassword) {
 function doLogout() {
   S.token = null; S.user = null; S.role = 'user'; S.perfil = null;
   S.notas = []; S.notasFamilia = []; S.grupoFamiliar = null; S.rolGrupo = null;
+  S.notificaciones = []; S.noLeidas = 0; S.familyMemberFilter = '';
   S.usuariosAdmin = []; S.adminUserFilter = '';
-  S.openId = null; S.modal = null; S.loading = false; S.notifOpen = false;
+  S.scope = 'pending'; S.priorityFilter = null; S.categoryFilter = null; S.query = '';
+  S.openId = null; S.modal = null; S.loading = false; S.notifOpen = false; S.settingsOpen = false; S.submitting = false;
   localStorage.removeItem('notas_token');
   localStorage.removeItem('notas_user');
   localStorage.removeItem('notas_role');
@@ -493,20 +505,30 @@ async function createNota(payload, fileToAttach) {
   const data = await res.json();
   if (!res.ok) { showToast(data.message || 'Error al crear la nota'); return; }
 
+  let nuevaNota = data.nota;
   if (fileToAttach && data.id) {
     const fd = new FormData();
     fd.append('archivo', fileToAttach);
     const rAtt = await apiFetch('POST', `/grilla/${data.id}/adjuntos`, fd, true);
-    if (rAtt && !rAtt.ok) {
+    if (rAtt) {
       const dAtt = await rAtt.json();
-      showToast(dAtt.message || 'Nota creada, pero falló el archivo adjunto');
-      await loadNotas();
-      await loadFamiliaAndNotifs();
-      return;
+      if (!rAtt.ok) {
+        showToast(dAtt.message || 'Nota creada, pero falló el archivo adjunto');
+      } else if (dAtt.nota) {
+        nuevaNota = dAtt.nota;
+      }
     }
   }
-  await loadNotas();
-  await loadFamiliaAndNotifs();
+  if (nuevaNota) {
+    if (nuevaNota.grupo_id) {
+      S.notasFamilia = [nuevaNota, ...S.notasFamilia.filter(n => n.id !== nuevaNota.id)];
+    } else {
+      S.notas = [nuevaNota, ...S.notas.filter(n => n.id !== nuevaNota.id)];
+    }
+    updateAll();
+  } else {
+    await loadNotas();
+  }
   showToast(data.message || '¡Tarea anotada en el cuaderno!');
 }
 
@@ -778,7 +800,7 @@ function buildTopbar(sorted) {
     <button class="icon-btn${S.settingsOpen ? ' active-view' : ''}" data-action="toggle-settings" title="Configuración del Cuaderno" type="button">
       ${ICO.gear}
     </button>
-    ${S.settingsOpen ? `<div class="settings-popover" onclick="event.stopPropagation()">
+    ${S.settingsOpen ? `<div class="settings-popover">
       <div class="notif-head" style="margin-bottom:2px">
         <span>Configuración del Cuaderno</span>
       </div>
@@ -813,7 +835,7 @@ function buildTopbar(sorted) {
       ${ICO.bell}
       ${S.noLeidas > 0 ? `<span class="notif-badge">${S.noLeidas}</span>` : ''}
     </button>
-    ${S.notifOpen ? `<div class="notif-popover" onclick="event.stopPropagation()">
+    ${S.notifOpen ? `<div class="notif-popover">
       <div class="notif-head">
         <span>Avisos del Cuaderno (${S.noLeidas} sin leer)</span>
         ${S.noLeidas > 0 ? `<button class="link-btn" data-action="read-all-notifs" type="button" style="font-size:11px">Marcar leídas</button>` : ''}
@@ -1290,7 +1312,7 @@ function buildModals() {
     const n = findNotaById(S.confirmTargetId);
     const perm = S.confirmPermanent;
     return `<div class="modal-overlay" data-action="close-modal">
-      <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-card">
         <div class="modal-head">
           <h2>${perm ? 'Arrancar hoja definitivamente' : 'Mover nota a la Papelera'}</h2>
           <button class="icon-btn" data-action="close-modal" type="button">${ICO.close}</button>
@@ -1310,7 +1332,7 @@ function buildModals() {
 
   if (S.modal === 'confirm-empty-trash') {
     return `<div class="modal-overlay" data-action="close-modal">
-      <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-card">
         <div class="modal-head">
           <h2>Vaciar Papelera del Cuaderno</h2>
           <button class="icon-btn" data-action="close-modal" type="button">${ICO.close}</button>
@@ -1330,7 +1352,7 @@ function buildModals() {
     const p = S.perfil || { username: S.user, nombre: S.user, apellido: '', email: '', role: S.role };
     const c = getCounts();
     return `<div class="modal-overlay" data-action="close-modal">
-      <form id="profile-form" class="modal-card" onclick="event.stopPropagation()">
+      <form id="profile-form" class="modal-card">
         <div class="modal-head">
           <h2>Ficha del Propietario (@${esc(p.username)})</h2>
           <button class="icon-btn" data-action="close-modal" type="button">${ICO.close}</button>
@@ -1377,7 +1399,7 @@ function buildModals() {
 
   if (S.modal === 'terms') {
     return `<div class="modal-overlay" data-action="close-modal">
-      <div class="modal-card wide" onclick="event.stopPropagation()">
+      <div class="modal-card wide">
         <div class="modal-head">
           <h2>Términos y Condiciones de Uso — AppNotas</h2>
           <button class="icon-btn" data-action="close-modal" type="button">${ICO.close}</button>
@@ -1426,7 +1448,8 @@ function renderLogin(err) {
   <div class="login-mark"><span>CUADERNO DE NOTAS</span><span>SELLO DE VERIFICACIÓN</span></div>
   <h1 class="login-title">Validar Propietario</h1>
   <p class="login-sub">Ingresá el código de 6 caracteres enviado al correo de <strong>@${esc(S.verifyUser)}</strong>.</p>
-  <div class="field"><label for="code">Código de activación</label><input id="code" class="input" name="code" placeholder="XXXXXX" autofocus/></div>
+  ${S.verifyNotice ? `<div class="login-success">${esc(S.verifyNotice)}</div>` : ''}
+  <div class="field"><label for="code">Código de activación</label><input id="code" class="input" name="code" value="${esc(S.verifyCodeDemo || '')}" placeholder="XXXXXX" autofocus/></div>
   <div class="login-error">${esc(err || '')}</div>
   <button class="btn-primary" type="submit">Abrir mi Cuaderno</button>
   <div style="display:flex;justify-content:space-between;align-items:center">
@@ -1449,7 +1472,8 @@ function renderLogin(err) {
   <div class="login-mark"><span>CUADERNO DE NOTAS</span><span>NUEVA CLAVE</span></div>
   <h1 class="login-title">Nueva contraseña</h1>
   <p class="login-sub">Ingresá el código recibido por email para <strong>@${esc(S.verifyUser)}</strong>.</p>
-  <div class="field"><label for="rs-code">Código de recuperación</label><input id="rs-code" class="input" placeholder="XXXXXX" autofocus/></div>
+  ${S.verifyNotice ? `<div class="login-success">${esc(S.verifyNotice)}</div>` : ''}
+  <div class="field"><label for="rs-code">Código de recuperación</label><input id="rs-code" class="input" value="${esc(S.verifyCodeDemo || '')}" placeholder="XXXXXX" autofocus/></div>
   <div class="field"><label for="rs-pass">Nueva contraseña</label><input id="rs-pass" type="password" class="input" placeholder="••••••••"/></div>
   <div class="field"><label for="rs-pass2">Confirmar contraseña</label><input id="rs-pass2" type="password" class="input" placeholder="••••••••"/></div>
   <div class="login-error">${esc(err || '')}</div>
@@ -1581,6 +1605,7 @@ function handleClick(e) {
 
   const btn = e.target.closest('[data-action]');
   if (!btn) return;
+  if (btn.classList.contains('modal-overlay') && e.target !== btn) return;
   const action = btn.dataset.action;
   const id = btn.dataset.id ? parseInt(btn.dataset.id) : null;
 
@@ -1836,7 +1861,6 @@ function handleInput(e) {
   if (id === 'search-input') {
     S.query = e.target.value;
     updateNotesBody();
-    updateTopbar();
   } else if (id === 'qa-title') {
     S.qaTitle = e.target.value;
     const btn = document.querySelector('[data-action="qa-submit"]');
