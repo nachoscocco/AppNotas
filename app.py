@@ -173,12 +173,12 @@ def serve_upload(filename):
 @app.route("/grilla")
 @app.route("/alta-nota")
 def index():
-    return send_from_directory("static", "index.html")
+    return send_from_directory("static", "index.html", max_age=0)
 
 
 @app.route("/static/<path:filename>")
 def serve_static(filename):
-    return send_from_directory("static", filename)
+    return send_from_directory("static", filename, max_age=0)
 
 
 # ── Error handlers ─────────────────────────────────────────────────
