@@ -1791,14 +1791,17 @@ function handleClick(e) {
     case 'paper':
       S.prefs.paper = btn.dataset.paper;
       savePrefs(); applyPrefs(); updateTopbar();
+      showToast('Hoja: ' + (S.prefs.paper === 'grid' ? 'Cuadrícula' : S.prefs.paper === 'dotted' ? 'Puntos' : 'Rayada'));
       break;
     case 'set-hand':
       S.prefs.hand = btn.dataset.hand;
       savePrefs(); applyPrefs(); updateTopbar();
+      showToast('Tipografía: ' + (S.prefs.hand === 'full' ? 'Manuscrita' : 'Balanceada'));
       break;
     case 'set-theme':
       S.prefs.theme = btn.dataset.theme;
       savePrefs(); applyPrefs(); updateTopbar();
+      showToast('Tema: ' + (S.prefs.theme === 'dark' ? 'Oscuro' : 'Claro'));
       break;
     case 'toggle-hand':
       S.prefs.hand = S.prefs.hand === 'full' ? 'balanced' : 'full';

@@ -28,9 +28,9 @@
   --paper-border-strong: rgba(65, 50, 32, 0.28);
 
   /* Renglones y Margen de Hoja Escolar/Universitaria */
-  --rule-line: rgba(108, 162, 198, 0.42);
-  --rule-grid: rgba(108, 162, 198, 0.28);
-  --rule-dot: rgba(108, 162, 198, 0.55);
+  --rule-line: rgba(108, 162, 198, 0.45);
+  --rule-grid: rgba(108, 162, 198, 0.40);
+  --rule-dot: rgba(108, 162, 198, 0.68);
   --margin-red: rgba(217, 79, 70, 0.62);
   --margin-red-2: rgba(217, 79, 70, 0.35);
   --hole-bg: #C8B396;
@@ -107,9 +107,9 @@
   --paper-border: rgba(235, 220, 195, 0.12);
   --paper-border-strong: rgba(235, 220, 195, 0.24);
 
-  --rule-line: rgba(190, 175, 150, 0.14);
-  --rule-grid: rgba(190, 175, 150, 0.10);
-  --rule-dot: rgba(190, 175, 150, 0.25);
+  --rule-line: rgba(190, 175, 150, 0.18);
+  --rule-grid: rgba(190, 175, 150, 0.18);
+  --rule-dot: rgba(190, 175, 150, 0.36);
   --margin-red: rgba(224, 96, 85, 0.42);
   --margin-red-2: rgba(224, 96, 85, 0.22);
   --hole-bg: #12100E;
@@ -522,8 +522,8 @@ button, input, select, textarea { font-family: inherit; }
 }
 
 .side-item:hover {
-  transform: translateX(4px);
   color: var(--ink);
+  border-color: var(--ink-3);
 }
 
 .side-item.active {
@@ -588,7 +588,7 @@ button, input, select, textarea { font-family: inherit; }
 }
 .cat-sticker:nth-child(odd) { transform: rotate(-1.2deg); }
 .cat-sticker:nth-child(even) { transform: rotate(1.1deg); }
-.cat-sticker:hover { transform: scale(1.04) rotate(0deg); }
+.cat-sticker:hover { filter: brightness(0.97); }
 .cat-sticker.active {
   outline: 2px solid var(--ink);
   transform: scale(1.05) rotate(0deg);
@@ -1032,7 +1032,7 @@ button, input, select, textarea { font-family: inherit; }
 .chip:hover {
   color: var(--ink);
   border-style: solid;
-  transform: translateY(-1px);
+  background: var(--paper-sunken);
 }
 .chip.active {
   background: var(--ink);
@@ -1103,7 +1103,6 @@ button, input, select, textarea { font-family: inherit; }
 .quick-add:hover {
   border-color: var(--ink-blue);
   color: var(--ink);
-  transform: translateY(-1px);
 }
 
 /* Clip metálico SVG decorativo en la esquina derecha */
@@ -1258,11 +1257,11 @@ button, input, select, textarea { font-family: inherit; }
   min-height: calc(var(--line-h) * 2);
   border-bottom: 1px solid transparent;
   cursor: pointer;
-  transition: background .12s;
+  transition: background-color .18s ease;
   position: relative;
 }
 .note-row:hover {
-  background: rgba(255, 236, 153, 0.22);
+  background-color: rgba(255, 236, 153, 0.20);
 }
 [data-theme="dark"] .note-row:hover {
   background: rgba(255, 255, 255, 0.04);
@@ -1291,7 +1290,7 @@ button, input, select, textarea { font-family: inherit; }
 }
 .note-row .check:hover, .g-card .head .check:hover {
   border-color: var(--ink-red);
-  transform: scale(1.08) rotate(-3deg);
+  background: var(--accent-soft);
 }
 .note-row.done .check, .g-card.done .head .check {
   background: var(--hl-baja);
@@ -1414,8 +1413,7 @@ button, input, select, textarea { font-family: inherit; }
 .g-card:nth-child(3n)   { transform: rotate(-0.3deg); }
 
 .g-card:hover {
-  transform: translateY(-4px) rotate(0deg) scale(1.01);
-  box-shadow: 4px 12px 22px -6px rgba(35, 25, 15, 0.30);
+  box-shadow: 3px 8px 18px -4px rgba(35, 25, 15, 0.28);
   z-index: 5;
 }
 
